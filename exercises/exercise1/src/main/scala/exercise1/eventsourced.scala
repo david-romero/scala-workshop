@@ -21,3 +21,18 @@ package exercise1
  *
  * Refactor your previous exercise to add those.
  */
+sealed trait Event
+
+case class UserLoggedIn(userId : String) extends Event
+
+case class ItemAddedToTheBasket(itemId : String, cartId : String) extends Event
+
+case class PaymentProcessStarted(itemId : String, cartId : String) extends Event
+
+case class PaymentProcessFinishedSuccessfully(paymentId : String)
+
+case class PaymentProcessFinishedFailing[E <: RuntimeException](paymentId : String,error : E) extends Event
+
+class TimeOutError extends RuntimeException
+
+class InsufficientFunds extends RuntimeException
