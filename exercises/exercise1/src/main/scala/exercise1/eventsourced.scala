@@ -1,5 +1,7 @@
 package exercise1
 
+import java.util.UUID
+
 /**
  * Exercise 1.1
  *
@@ -21,17 +23,28 @@ package exercise1
  *
  * Refactor your previous exercise to add those.
  */
-sealed trait Event
+sealed trait Event {
 
-case class UserLoggedIn(userId : String) extends Event
+  def userId: UUID
 
-case class ItemAddedToTheBasket(itemId : String, cartId : String) extends Event
+  def eventId: UUID
 
-case class PaymentProcessStarted(itemId : String, cartId : String) extends Event
+}
 
-case class PaymentProcessFinishedSuccessfully(paymentId : String)
+case class UserLoggedIn(userId: UUID, eventId: UUID) extends Event
 
-case class PaymentProcessFinishedFailing[E <: RuntimeException](paymentId : String,error : E) extends Event
+case class ItemAddedToTheBasket(eventId: UUID, userId: UUID, itemId: String, cartId: String) extends Event
+
+case class PaymentProcessStarted(userId: UUID, eventId: UUID, itemId: String, cartId: String) extends Event
+
+case class PaymentProcessFinishedSuccessfully(userId: UUID, eventId: UUID, paymentId: String) extends Event
+
+case class PaymentProcessFinishedFailing[E <: RuntimeException](
+  userId: UUID,
+  eventId: UUID,
+  paymentId: String,
+  error: E
+) extends Event
 
 class TimeOutError extends RuntimeException
 
