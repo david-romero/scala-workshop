@@ -1,6 +1,7 @@
 package exercise4
 
 import java.util.Random
+import scala.util.Try
 
 object Exercise4 {
   val random = new Random
@@ -12,14 +13,20 @@ object Exercise4 {
       null
     }
 
+  val stringOrThrow: String =
+    if (random.nextBoolean) {
+      "it's not null"
+    } else {
+      throw new Exception("OOps")
+    }
+
+
+  def useTry : Try[String] = Try(stringOrThrow)
+
   /**
    * reimplement this using Option
    */
-  def useOption: String =
-    if (maybeString == null) {
-      null
-    } else {
-      maybeString
-    }
+  def useOption: Option[String] =
+    Option(maybeString)
 
 }
